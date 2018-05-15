@@ -41,5 +41,7 @@ tf = args.tomofile
 namebase = tf[:tf.rfind('.')]
 
 
-callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -cp '+str(args.cpus)
+# run set up and coarse alignment
+
+callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -end 3 -cp '+str(args.cpus)
 os.system(callcmd)
