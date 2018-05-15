@@ -30,7 +30,7 @@ sfile=$inputdir/$inputfile
 
  cd $TMPDIR
  ls
- batchruntomo -root $base -directive $directive -current . -em $tomouser@embl.de -cp 8
+ batchruntomo -root $base -directive $directive -current . -em $tomouser@embl.de -cp 12
 
  rfile=$TMPDIR/${base}.rec
 
