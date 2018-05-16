@@ -38,6 +38,12 @@ from skimage.transform import downscale_local_mean
 
 tf = args.tomofile
 binning = args.binning
+dir_file = args.directive
+
+if args.mont:
+    f = open(dir_file,'w')  
+    f.write('setupset.copyarg.montage = 1')
+    f.close()
 
 #%%
 
