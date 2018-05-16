@@ -20,6 +20,7 @@ parser.add_argument('directive', metavar='D', type=str,
 parser.add_argument('cpus', metavar='C', type=int,
                     help='the number of CPUs to use')
 parser.add_argument('-m', dest='mont', help='use this flag if it is a montaged tomogram', action='store_true', default=False,)
+parser.add_argument('-d', dest='dual', help='use this flag if it is a dual-axis tomogram', action='store_true', default=False,)
 
 
 
@@ -43,5 +44,8 @@ namebase = tf[:tf.rfind('.')]
 
 # run set up and coarse alignment
 
-callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -end 3 -cp '+str(args.cpus)
-os.system(callcmd)
+if not os.path.exists(namebase+'.preali'):
+    callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -end 3 -cp '+str(args.cpus)
+    os.system(callcmd)
+    
+
