@@ -41,7 +41,7 @@ binning = args.binning
 dir_file = args.directive
 
 if args.mont:
-    f = open(dir_file,'w')  
+    f = open(dir_file,'a')  
     f.write('setupset.copyarg.montage = 1')
     f.close()
 
@@ -56,6 +56,8 @@ if not os.path.exists(namebase+'.preali'):
     callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -end 3 -cp '+str(args.cpus)
     os.system(callcmd)
     
+    
+# load coarse-aligned stack for finding featureless areas    
 instack = em.mrc.mmap(namebase+'.preali')
 
 stacksz = instack.header['nz']
@@ -64,13 +66,14 @@ cslice = int(stacksz/2)+1
 
 im = instack.data[cslice,:,:]
 
+# start image analysis
+
 im1 = downscale_local_mean(im,(binning,binning))
 
 from skimage import img_as_float, exposure
 from skimage.filters import rank, threshold_otsu
 from skimage.morphology import disk, binary_dilation
 from skimage.util import invert
-from skimage.transform import EuclideanTransform as tfm
 
 from scipy.ndimage import distance_transform_cdt
 
@@ -98,3 +101,11 @@ im6 = distance_transform_cdt(im5)
 im7 = im6==1  
 
 em.outline2mod(im7*1, namebase+'_ptbound', z=cslice-1, binning=binning)
+
+f = open(dir_file,'a')  
+f.write('runtime.PatchTracking.any.rawBoundaryModel = '+namebase+'_ptbound.mod')
+f.close()
+    
+callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -start 4 -cp '+str(args.cpus)
+os.system(callcmd)
+    
