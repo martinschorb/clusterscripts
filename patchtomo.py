@@ -22,6 +22,7 @@ parser.add_argument('cpus', metavar='C', type=int,
 parser.add_argument('-m', dest='mont', help='use this flag if it is a montaged tomogram', action='store_true', default=False)
 parser.add_argument('-d', dest='dual', help='use this flag if it is a dual-axis tomogram', action='store_true', default=False)
 parser.add_argument('-b', dest='binning', help='set the binning to be used for image analysis, default is 4', type=int, default=4)
+parser.add_argument('-u', dest='user', help='who runs this (for email notification)', type=str)
 
 
 
@@ -31,6 +32,8 @@ args = parser.parse_args()
 # dependencies
 
 import os
+import sys
+sys.path.append('/g/emcf/schorb/code/python')
 import emtools as em
 from skimage.transform import downscale_local_mean
 
@@ -106,6 +109,6 @@ f = open(dir_file,'a')
 f.write('runtime.PatchTracking.any.rawBoundaryModel = '+namebase+'_ptbound.mod')
 f.close()
     
-callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -start 4 -cp '+str(args.cpus)
+callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -start 4 -cp '+str(args.cpus)+' -em '+args.user+'@embl.de'
 os.system(callcmd)
     

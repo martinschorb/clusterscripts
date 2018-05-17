@@ -4,17 +4,21 @@
 #SBATCH --mem 12G                  # memory pool for all cores
 #SBATCH -t 0-00:15:00                   # runtime limit (D-HH:MM:SS)
 #SBATCH --mail-type=FAIL 
-#SBATCH --mail-user=haberbos@embl.de 
+#SBATCH --mail-user=schorb@embl.de 
  
  
 inputfile="$1";
 inputdir="$2";
 directive="$3";
+patchtrack="$4";
+
+TMPDIR=test
 
 
+numcpu=12
 
-module load IMOD
-source $EBROOTIMOD/IMOD-linux.sh
+#module load IMOD
+#source $EBROOTIMOD/IMOD-linux.sh
 
 tomouser=`whoami`;
 
@@ -26,12 +30,21 @@ ext1=${extension,,}
 
 sfile=$inputdir/$inputfile
 
- cp $sfile $TMPDIR/
+ #cp $sfile $TMPDIR/
+ #cp $directive $TMPDIR/
 
  cd $TMPDIR
- ls
- batchruntomo -root $base -directive $directive -current . -em $tomouser@embl.de -cp 12
-
+ 
+ loc_dir=`ls *.adoc`
+ 
+ if [ $patchtrack ]
+ then
+ python /g/emcf/schorb/code/cluster/patchtomo.py -u `whoami` $sfile $loc_dir $numcpu
+ else 
+ batchruntomo -root $base -directive $directive -current . -em $tomouser@embl.de -cp $numcpu
+ fi
+ 
+ 
  rfile=$TMPDIR/${base}.rec
 
  cp $rfile $inputdir/

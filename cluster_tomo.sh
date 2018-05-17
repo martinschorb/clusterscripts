@@ -2,6 +2,7 @@
 
 workdir="$1";
 directive="$2";
+patchtrack="$3";
 
 # indir="/g/emcf/tomograms/in";
 # outdir="/g/emcf/tomograms/in";
@@ -76,10 +77,7 @@ then
     echo "skipping "$base" because it already exists."
 else
     echo "submitting "$base" to the cluster for automatic reconstruction."
-    sbatch /g/emcf/schorb/code/cluster/tomo_submit.sh $base $dir1 $directive
+    sbatch /g/emcf/schorb/code/cluster/tomo_submit.sh $base $dir1 $directive $patchtrack
 fi
-
-
-    	#  
 	   
-done 
+done
