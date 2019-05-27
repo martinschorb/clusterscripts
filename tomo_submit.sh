@@ -5,19 +5,27 @@
 #SBATCH -t 0-00:30:00                   # runtime limit (D-HH:MM:SS)
 #SBATCH --mail-type=FAIL 
 #SBATCH --mail-user=schorb@embl.de 
- 
- 
+
+numcpu=12 
+
+
+
+
+
+
+
+
+
+# THIS NEEDS TO BE LINE 19 !!!
+# ---------------------------------------------------------------------------------------------------
+
 inputfile="$1";
 inputdir="$2";
 directive="$3";
-patchtrack="$4";
+option="$4";
 
-numcpu=12
 
 module load IMOD
-
-source $EBROOTIMOD/IMOD-linux.sh
-
 
 tomouser=`whoami`;
 
@@ -29,6 +37,13 @@ ext1=${extension,,}
 
 sfile=$inputdir/$inputfile
 
+if [[ $option = "d" ]];
+then
+  base=${inputfile%a$extension}
+  bfile=$inputdir/${inputfile%a$extension}b.st
+  cp $bfile $TMPDIR/
+fi
+
 cp $sfile $TMPDIR/
 cp $directive $TMPDIR/
 
@@ -36,14 +51,30 @@ loc_dir=$(basename "${directive}")
 
 cd $TMPDIR
 
- if [ $patchtrack = m ];
+ if [[ $option = "m" ]]; # single axis montaged tomo with patch tracking and automated empty-area removal
  then
+ echo starting automated removal of empty resin areas, montaged tomogram
+ module load Anaconda2
+ source $EBROOTIMOD/IMOD-linux.sh
+
+ pip install --install-option="--prefix="$TMPDIR tifffile
+ pip install --install-option="--prefix="$TMPDIR mrcfile
+ export PYTHONPATH=$PYTHONPATH:$TMPDIR/lib/python2.7/site-packages
  python /g/emcf/schorb/code/cluster/patchtomo.py -u `whoami` -m $inputfile $loc_dir $numcpu
- elif [ $patchtrack ];
+ 
+ elif [[ $option = "p" ]];# single axis tomo with patch tracking and automated empty-area removal
  then
+ echo starting automated removal of empty resin areas
+ module load Anaconda2
+ source $EBROOTIMOD/IMOD-linux.sh
+
+ pip install --install-option="--prefix="$TMPDIR tifffile
+ pip install --install-option="--prefix="$TMPDIR mrcfile
+ export PYTHONPATH=$PYTHONPATH:$TMPDIR/lib/python2.7/site-packages
  python /g/emcf/schorb/code/cluster/patchtomo.py -u `whoami` $inputfile $loc_dir $numcpu
+ 
  else
- batchruntomo -root $base -directive $directive -current . -em $tomouser@embl.de -cp $numcpu
+ batchruntomo -root $base -directive $loc_dir -current . -em $tomouser@embl.de -cp $numcpu
  fi
  
  

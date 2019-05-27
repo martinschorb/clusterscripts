@@ -27,88 +27,146 @@ parser.add_argument('-u', dest='user', help='who runs this (for email notificati
 
 
 args = parser.parse_args()
-
-
-# dependencies
-
-import os
-import sys
-sys.path.append('/g/emcf/schorb/code/python')
-import emtools as em
-from skimage.transform import downscale_local_mean
-
-# start actions
-
 tf = args.tomofile
 binning = args.binning
 dir_file = args.directive
+cpus = args.cpus
+dual = args.dual
+user = args.user
 
 if args.mont:
     f = open(dir_file,'a')  
-    f.write('setupset.copyarg.montage = 1')
+    f.write('setupset.copyarg.montage = 1\n')
     f.close()
 
 #%%
 
-namebase = tf[:tf.rfind('.')]
+# dependencies
 
+import os
+import numpy
+import pyEM as em
+from skimage.transform import downscale_local_mean
+from skimage.filters import threshold_otsu
+# start actions
+
+
+
+def exclude_bright_area(im1):
+#    generates an outline image around areas that can be used for patch tracking
+#    this can then be used in outline2mod to create a boundary model
+#    bright uniform areas (empty resin) are excluded
+    
+    from skimage import img_as_float, exposure
+    from skimage.filters import rank
+    from skimage.morphology import disk, binary_dilation
+    from skimage.util import invert    
+    from scipy.ndimage import distance_transform_cdt
+        
+    im1 = em.numpy.rot90(em.numpy.transpose(img_as_float(im1)))
+    im1 = exposure.rescale_intensity(im1)
+    
+    selem = disk(7)
+    
+    im2 = rank.mean(im1,selem = selem)
+    
+    im3 = im2 > threshold_otsu(im2)
+    
+    im4 = binary_dilation(im3,selem=selem)
+    
+    im5 = invert(im4)*1
+    
+    im5[:,0]=0
+    im5[:,-1]=0
+    im5[-1,:]=0
+    im5[0,:]=0
+    
+    im6 = distance_transform_cdt(im5)
+    
+    im7 = im6==1  
+    
+    return im7
+
+def hasdark(im,deviation = 2,areafraction = 0.03):
+#    determines whether an image has large dark areas
+#   deviation is multiples of std to check          
+ 
+    im2=im.astype(float)
+    im3=im2-im2.min()
+    dark = im3<im3.mean()-deviation*im3.std()
+    return numpy.sum(dark)>numpy.prod(numpy.array(im3.shape)) * areafraction
+    
+    
+
+
+#%%
+
+namebase = tf[:tf.rfind('.')]
+namebase1=list()
+namebase1.append(namebase)
+
+adoc=em.loadtext(dir_file)
+
+if dual :
+    namebase = tf[:tf.rfind('a.')]
+    namebase1.append(namebase+'b')
 
 # run set up and coarse alignment
 
-if not os.path.exists(namebase+'.preali'):
-    callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -end 3 -cp '+str(args.cpus)
+if (not os.path.exists(namebase1[0]+'.preali')):
+    callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+dir_file+'\" -current . -end 3 -cp '+str(cpus)
     os.system(callcmd)
+
+for nb in namebase1:    
     
+    # load coarse-aligned stack for finding featureless areas    
+    instack = em.mrc.mmap(nb+'.preali')
     
-# load coarse-aligned stack for finding featureless areas    
-instack = em.mrc.mmap(namebase+'.preali')
-
-stacksz = instack.header['nz']
-
-cslice = int(stacksz/2)+1
-
-im = instack.data[cslice,:,:]
-
-# start image analysis
-
-im1 = downscale_local_mean(im,(binning,binning))
-
-from skimage import img_as_float, exposure
-from skimage.filters import rank, threshold_otsu
-from skimage.morphology import disk, binary_dilation
-from skimage.util import invert
-
-from scipy.ndimage import distance_transform_cdt
-
-
-im1 = em.numpy.rot90(em.numpy.transpose(img_as_float(im1)))
-im1 = exposure.rescale_intensity(im1)
-
-selem = disk(7)
-
-im2 = rank.mean(im1,selem = selem)
-
-im3 = im2 > threshold_otsu(im2)
-
-im4 = binary_dilation(im3,selem=selem)
-
-im5 = invert(im4)*1
-
-im5[:,0]=0
-im5[:,-1]=0
-im5[-1,:]=0
-im5[0,:]=0
-
-im6 = distance_transform_cdt(im5)
-
-im7 = im6==1  
-
-em.outline2mod(im7*1, namebase+'_ptbound', z=cslice-1, binning=binning)
-
-f = open(dir_file,'a')  
-f.write('runtime.PatchTracking.any.rawBoundaryModel = '+namebase+'_ptbound.mod')
-f.close()
+    stacksz = instack.header['nz']
     
-callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+args.directive+'\" -current . -start 4 -cp '+str(args.cpus)+' -em '+args.user+'@embl.de'
+    cslice = int(stacksz/2)+1
+    
+    im = instack.data[cslice,:,:]
+    
+    currslice = 0
+    exclude=list()
+    while hasdark(instack.data[currslice,:,:]):
+        currslice = currslice + 1
+        exclude.append(currslice)
+    
+    currslice = -1
+    while hasdark(instack.data[currslice,:,:]):
+        currslice = currslice - 1
+        exclude.append(currslice)
+        
+    exclude.sort()
+    
+    skipline=[line for line in adoc if "setupset.copyarg.skip" in line]    
+    
+    delim=' '
+    if not skipline[-1][-1]=='=': delim=','
+    
+    adoc[adoc.index(skipline[0])]=skipline[-1]+delim+','.join(list(map(str,exclude)))
+    
+    # start image analysis
+    
+    im1 = downscale_local_mean(im,(binning,binning))
+    
+    im7 = exclude_bright_area(im1)
+    
+    em.outline2mod(im7*1, nb + '_ptbound', z=cslice-1, binning=binning)
+    f = open(dir_file,'a')
+    if dual:
+      if nb==namebase1[0]:
+          f.write('runtime.PatchTracking.a.rawBoundaryModel = '+nb+'_ptbound.mod\n')
+      else:
+          f.write('runtime.PatchTracking.b.rawBoundaryModel = '+nb+'_ptbound.mod\n')
+    else:
+      f.write('runtime.PatchTracking.any.rawBoundaryModel = '+nb+'_ptbound.mod\n')
+    f.close()
+
+
+    
+callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+ dir_file +'\" -current . -start 4 -cp '+str(cpus)+' -em ' +user+ '@embl.de'
 os.system(callcmd)
     
