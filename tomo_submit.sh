@@ -78,8 +78,18 @@ cd $TMPDIR
  fi
  
  
+ 
  rfile=$TMPDIR/${base}.rec
- cp $rfile $inputdir/ 
+ cp $rfile $inputdir/
+ 
+if [[ $option = "d" ]];
+then
+  rfile_a=$TMPDIR/${base}a.rec
+  rfile_b=$TMPDIR/${base}b.rec
+  cp $rfile_a $inputdir/
+  cp $rfile_b $inputdir/
+fi
+
  
  cat etomo_err_*.log >> $inputdir/"$base-$SLURM_JOBID _err.log"
  cp batchruntomo.log $inputdir/"$base-$SLURM_JOBID .log"
