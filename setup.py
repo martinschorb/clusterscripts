@@ -14,7 +14,7 @@ setup(name='cluster_ms',
       author='Martin Schorb',
       author_email='schorb@embl.de',
       license='GPLv3',
-      install_requires=[
-      'os'
-      ],
+    #  install_requires=[
+    #  'sys'
+    #  ],
       )
