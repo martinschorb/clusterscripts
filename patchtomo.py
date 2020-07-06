@@ -48,6 +48,8 @@ import numpy
 import pyEM as em
 from skimage.transform import downscale_local_mean
 from skimage.filters import threshold_otsu
+
+
 # start actions
 
 
@@ -63,7 +65,7 @@ def exclude_bright_area(im1):
     from skimage.util import invert    
     from scipy.ndimage import distance_transform_cdt
         
-    im1 = em.numpy.rot90(em.numpy.transpose(img_as_float(im1)))
+    im1 = numpy.rot90(numpy.transpose(img_as_float(im1)))
     im1 = exposure.rescale_intensity(im1)
     
     selem = disk(7)
@@ -102,22 +104,24 @@ def hasdark(im,deviation = 2,areafraction = 0.03):
 #%%
 
 namebase = tf[:tf.rfind('.')]
+base1=namebase
 namebase1=list()
 namebase1.append(namebase)
 
 adoc=em.loadtext(dir_file)
 
-if dual :
+if dual :    
     namebase = tf[:tf.rfind('a.')]
-    namebase1.append(namebase+'b')
-
+    base1=namebase
+    namebase1.append(namebase+'b')    
 # run set up and coarse alignment
 
 if (not os.path.exists(namebase1[0]+'.preali')):
-    callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+dir_file+'\" -current . -end 3 -cp '+str(cpus)
+    callcmd = 'batchruntomo -root \"'+base1+'\" -directive \"'+dir_file+'\" -current . -end 3 -cp '+str(cpus)
     os.system(callcmd)
 
 for nb in namebase1:    
+
     
     # load coarse-aligned stack for finding featureless areas    
     instack = em.mrc.mmap(nb+'.preali')
@@ -144,9 +148,10 @@ for nb in namebase1:
     skipline=[line for line in adoc if "setupset.copyarg.skip" in line]    
     
     delim=' '
-    if not skipline[-1][-1]=='=': delim=','
+    if len(skipline)>0:
+      if not skipline[-1][-1]=='=': delim=','
     
-    adoc[adoc.index(skipline[0])]=skipline[-1]+delim+','.join(list(map(str,exclude)))
+      adoc[adoc.index(skipline[0])]=skipline[-1]+delim+','.join(list(map(str,exclude)))
     
     # start image analysis
     
@@ -156,6 +161,7 @@ for nb in namebase1:
     
     em.outline2mod(im7*1, nb + '_ptbound', z=cslice-1, binning=binning)
     f = open(dir_file,'a')
+    f.write('\n')
     if dual:
       if nb==namebase1[0]:
           f.write('runtime.PatchTracking.a.rawBoundaryModel = '+nb+'_ptbound.mod\n')
@@ -167,6 +173,6 @@ for nb in namebase1:
 
 
     
-callcmd = 'batchruntomo -root \"'+namebase+'\" -directive \"'+ dir_file +'\" -current . -start 4 -cp '+str(cpus)+' -em ' +user+ '@embl.de'
+callcmd = 'batchruntomo -root \"'+base1+'\" -directive \"'+ dir_file +'\" -current . -start 4 -cp '+str(cpus)+' -em ' +user+ '@embl.de'
 os.system(callcmd)
     
