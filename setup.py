@@ -8,13 +8,13 @@ with open("README.md", "r") as fh:
 setup(name='slurmcluster',
       version='20200706',
       py_modules=['submit_slurm'],
-      description='Tools to interact with BigDataViewer.',
+      description='Tools to interact with EMBL cluster.',
       long_description=long_description,
       long_description_content_type="text/markdown",
       author='Martin Schorb',
       author_email='schorb@embl.de',
       license='GPLv3',
-    #  install_requires=[
-    #  'sys'
-    #  ],
+      install_requires=[
+      'numpy'
+      ],
       )
