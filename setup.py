@@ -1,13 +1,13 @@
  # -*- coding: utf-8 -*-
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='cluster_ms',
       version='20200706',
-      py_modules=['submit_slurm'],
+      packages=find_packages(),
       description='Tools to interact with EMBL cluster.',
       long_description=long_description,
       long_description_content_type="text/markdown",
@@ -17,4 +17,7 @@ setup(name='cluster_ms',
       install_requires=[
       'numpy'
       ],
+      entry_points={
+          "console_scripts": ["submit_slurm = cluster_ms.submit_slurm:main"]
+      }
       )
