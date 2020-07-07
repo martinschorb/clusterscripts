@@ -12,6 +12,9 @@ time = 5
 mem = 8
 
 
+#%%
+#===========================================================================
+
 def write_slurm_template(script, out_path, env_name,
                          n_threads, mem_limit, time_limit, mail_address):
     slurm_template = ("#!/bin/bash\n"
@@ -20,7 +23,7 @@ def write_slurm_template(script, out_path, env_name,
                       "#SBATCH --mem %s\n"
                       "#SBATCH -t %i\n") % (n_threads,
                                                     mem_limit, time_limit)
-                                            
+
     if mail_address is not None:
         slurm_template += ("#SBATCH --mail-type=FAIL,BEGIN,END\n"
                            "#SBATCH --mail-user=%s") % mail_address
@@ -32,6 +35,11 @@ def write_slurm_template(script, out_path, env_name,
                        "python %s $@ \n") % (env_name, script)
     with open(out_path, 'w') as f:
         f.write(slurm_template)
+
+
+#%%
+#===========================================================================
+
 
 
 def submit_slurm(script, input_, n_threads=n_threads, mem_limit=str(mem)+'G',
@@ -68,6 +76,11 @@ def submit_slurm(script, input_, n_threads=n_threads, mem_limit=str(mem)+'G',
     subprocess.run(cmd)
 
 
+#%%
+#===========================================================================
+
+
+
 def scrape_kwargs(input_):
     params = inspect.signature(submit_slurm).parameters
     kwarg_names = [name for name in params
@@ -83,6 +96,11 @@ def scrape_kwargs(input_):
     return input_, kwargs
 
 
+#%%
+#===========================================================================
+
+
+
 def main():
     script = os.path.realpath(os.path.abspath(sys.argv[1]))
     input_ = sys.argv[2:]
@@ -94,4 +112,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
