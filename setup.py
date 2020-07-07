@@ -5,7 +5,7 @@ from distutils.core import setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setup(name='cluster_ms',
+setup(name='slurmcluster',
       version='20200706',
       py_modules=['submit_slurm'],
       description='Tools to interact with BigDataViewer.',
