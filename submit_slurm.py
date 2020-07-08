@@ -55,7 +55,7 @@ def submit_slurm(script, input_, n_threads=n_threads, mem_limit=str(mem)+'G',
     print("with arguments %s" % " ".join(input_))
 
     script_name = os.path.split(script)[1]
-    dt = datetime.now().strftime('%Y_%m_%d_%M')
+    dt = datetime.now().strftime('%Y_%m_%d_%H-%M')
     tmp_name = os.path.splitext(script_name)[0] + dt
     batch_script = os.path.join(tmp_folder, '%s.sh' % tmp_name)
     log = os.path.join(tmp_folder, '%s.log' % tmp_name)
