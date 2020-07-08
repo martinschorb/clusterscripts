@@ -30,7 +30,7 @@ def write_slurm_template(script, out_path, env_name,
     slurm_template += ("\n"
                        "module purge \n"
                        "module load GCC \n"
-                       "eval "$(/g/emcf/software/python/miniconda/bin/conda shell.bash hook)"\n"
+                       'eval "$(/g/emcf/software/python/miniconda/bin/conda shell.bash hook)"\n'
                        "conda activate %s\n"
                        "\n"
                        "python %s $@ \n") % (env_name, script)
