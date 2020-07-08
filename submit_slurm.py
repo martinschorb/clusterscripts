@@ -45,7 +45,7 @@ def write_slurm_template(script, out_path, env_name,
 def submit_slurm(script, input_, n_threads=n_threads, mem_limit=str(mem)+'G',
                  time_limit=time,
                  env_name=None, mail_address=None):
-    """ Submit python script that needs gpus with given inputs on a slurm node.
+    """ Submit python script with given inputs on a slurm node.
     """
 
     tmp_folder = os.path.expanduser('~/.bdv_convert/slurm')
@@ -107,6 +107,7 @@ def main():
 
     # scrape the additional arguments (n_threads, mem_limit, etc. from the input)
     input_, kwargs = scrape_kwargs(input_)
+    print(kwargs)
     submit_slurm(script, input_, **kwargs)
 
 
