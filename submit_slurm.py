@@ -30,7 +30,7 @@ def write_slurm_template(script, out_path, env_name,
     slurm_template += ("\n"
                        "module purge \n"
                        "module load GCC \n"
-                       "module load Anacona3 \n"
+                       "module load Anaconda3 \n"
                        "conda activate %s\n"
                        "\n"
                        "python %s $@ \n") % (env_name, script)
