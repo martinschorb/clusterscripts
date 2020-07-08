@@ -108,7 +108,6 @@ def main():
 
     # scrape the additional arguments (n_threads, mem_limit, etc. from the input)
     input_, kwargs = scrape_kwargs(input_)
-    print(kwargs)
     submit_slurm(script, input_, **kwargs)
 
 
