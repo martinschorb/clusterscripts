@@ -39,8 +39,12 @@ def cluster_fiji(*args):
     os.system('echo -Xmx'+memlim+'g > /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
     os.system('cat /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig >> /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
 
-    print(callcmd)
+    os.system(callcmd)
+
     root.destroy()
+
+    os.system('cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
+
     exit()
 
 
