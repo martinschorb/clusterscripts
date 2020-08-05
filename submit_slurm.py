@@ -16,17 +16,23 @@ mem = 8
 #===========================================================================
 
 def write_slurm_template(script, out_path, env_name,
-                         n_threads, mem_limit, time_limit, mail_address):
+                         n_threads, mem_limit, time_limit, mail_address, log, err):
+    
+    
     slurm_template = ("#!/bin/bash\n"
                       "#SBATCH -N 1\n"
                       "#SBATCH -c %s\n"
                       "#SBATCH --mem %s\n"
-                      "#SBATCH -t %i\n") % (n_threads,
-                                                    mem_limit, time_limit)
+                      "#SBATCH -t %i\n") % (n_threads, mem_limit, time_limit)
 
     if mail_address is not None:
-        slurm_template += ("#SBATCH --mail-type=FAIL,BEGIN,END\n"
-                           "#SBATCH --mail-user=%s") % mail_address
+        slurm_template += ("#SBATCH --mail-type=FAIL,END\n" #"FAIL,BEGIN,END\n"
+                           "#SBATCH --mail-user=%s\n") % mail_address
+        
+        
+    slurm_template += "#SBATCH -e " + err + "_\%j.err\n"
+    slurm_template += "#SBATCH -o " + log + "_\%j.log\n"
+        
     slurm_template += ("\n"
                        "module purge \n"
                        "module load GCC \n"
@@ -56,11 +62,17 @@ def submit_slurm(script, input_, n_threads=n_threads, mem_limit=str(mem)+'G',
     print("with arguments %s" % " ".join(input_))
 
     script_name = os.path.split(script)[1]
-    dt = datetime.now().strftime('%Y_%m_%d_%H-%M')
-    tmp_name = os.path.splitext(script_name)[0] + dt
+    dt = datetime.now().strftime('_%Y_%m_%d_%H:%M:%S.%f')
+    
+    #jobid = os.environ'$SLURM_JOBID'
+    #jobid = jobid.rstrip('\n')
+    
+    tmp_name = os.path.splitext(script_name)[0] + dt #+ '_' + jobid
+    
+    
     batch_script = os.path.join(tmp_folder, '%s.sh' % tmp_name)
-    log = os.path.join(tmp_folder, '%s.log' % tmp_name)
-    err = os.path.join(tmp_folder, '%s.err' % tmp_name)
+    log = os.path.join(tmp_folder, '%s' % tmp_name)
+    err = os.path.join(tmp_folder, '%s' % tmp_name)
 
     if env_name is None:
         env_name = os.environ.get('CONDA_DEFAULT_ENV', None)
@@ -68,11 +80,11 @@ def submit_slurm(script, input_, n_threads=n_threads, mem_limit=str(mem)+'G',
             raise RuntimeError("Could not find conda")
 
     print("Batch script saved at", batch_script)
-    print("Log will be written to %s, error log to %s" % (log, err))
+    print("Log will be written to %s.log, error log to %s.err" % (log, err))
     write_slurm_template(script, batch_script, env_name,
-                         int(n_threads), mem_limit, int(time_limit), mail_address)
+                         int(n_threads), mem_limit, int(time_limit), mail_address, log, err)
 
-    cmd = ['sbatch', '-o', log, '-e', err, '-J', script_name, batch_script]
+    cmd = ['sbatch', '-J', script_name, batch_script]
     cmd.extend(input_)
     subprocess.run(cmd)
 
@@ -105,7 +117,7 @@ def scrape_kwargs(input_):
 def main():
     script = os.path.realpath(os.path.abspath(sys.argv[1]))
     input_ = sys.argv[2:]
-
+    
     # scrape the additional arguments (n_threads, mem_limit, etc. from the input)
     input_, kwargs = scrape_kwargs(input_)
     submit_slurm(script, input_, **kwargs)
