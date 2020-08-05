@@ -29,15 +29,15 @@ def cluster_fiji(*args):
 
     callcmd += ' --mem '+memlim+'G '
 
-    callcmd += '-t 0-'+timelim+':00'
+    callcmd += '-t 0-'+timelim+':00 '
 
     callcmd += 'bash /g/emcf/schorb/code/cluster/fijicluster.sh'
 
 
     os.system('cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig')
 
-    os.system('echo -Xmx'+memlim+'g > /g/emcf/schorb/code/cluster/ImageJ.cfg')
-    os.system('cat /g/emcf/schorb/code/cluster/ImageJ.cfg.orig >> /g/emcf/schorb/code/cluster/ImageJ.cfg')
+    os.system('echo -Xmx'+memlim+'g > /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
+    os.system('cat /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig >> /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
 
     print(callcmd)
     root.destroy()
