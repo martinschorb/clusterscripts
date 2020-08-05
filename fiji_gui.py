@@ -23,7 +23,7 @@ def cluster_fiji(*args):
     memlim = s_mem.get()
     n_cpu = s_cpu.get()
 
-    callcmd = 'srun -N1 --pty --x11 n'
+    callcmd = 'srun -N1 --pty --x11 -n'
 
     callcmd += n_cpu
 
