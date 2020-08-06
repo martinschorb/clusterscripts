@@ -60,7 +60,16 @@ For this, you need to open `Edit -> Options -> Memory & Threads`.
 
 And here, you can specify the number of threads (= number of CPUs).
 
-
 ![numthreads](doc/img/mem_threads_01.png "Fiji - Cluster parameters")
 
-Happy processing!
+## Interrupting sessions
+
+When you run a long processing, there is no need to stay connected with x2go all the time. You can simply disconnect from the VPN and re-connect at any later time. The session will continue to run as it is.
+
+To follow the formally correct procedure, you can also click the `Pause` button at the bottom of the x2go status frame for your running connection. This will disconnect but not end your session.
+
+![pause](doc/img/x2go_pause.png "x2go - Pause")
+
+
+
+## Happy processing!
