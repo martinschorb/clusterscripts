@@ -42,7 +42,7 @@ def cluster_fiji(*args):
     
     os.system(prepcmd)
     
-    callcmd += 'cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg'
+    callcmd += 'cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.template /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg'
     callcmd += 'rm /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig'
     
     os.popen(callcmd)
