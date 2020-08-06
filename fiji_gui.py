@@ -10,6 +10,7 @@ Created on Wed Aug  5 10:01:12 2020
 from tkinter import *
 from tkinter import ttk
 import os
+import time
 
 def calculate(*args):
     numcpus.set(int(numcpus.get()*2))
@@ -33,7 +34,64 @@ def cluster_fiji(*args):
 
     callcmd += 'bash /g/emcf/schorb/code/cluster/fijicluster.sh'
 
+    mainframe.destroy()    
+                   
+    # Declaration of variables 
+    hour=StringVar() 
+    minute=StringVar() 
+    second=StringVar() 
+       
+    starttime = str(timelim)
+    
+    # setting the default value as 0 
+    hour.set(starttime) 
 
+    ttk.Label(root, text="This Fiji cluster job will terminate in: ").grid(column=2, row=1, sticky=W)
+       
+    # Use of Entry class to take input from the user 
+    hourEntry= ttk.Label(root, font=("Arial",18,""), 
+                     textvariable=hour).grid(column=2, row=2, sticky=W) 
+
+    
+    temp = int(hour.get())*3600
+
+    while temp >-1: 
+          
+        # divmod(firstvalue = temp//60, secondvalue = temp%60) 
+        mins,secs = divmod(temp,60)  
+        
+        # Converting the input entered in mins or secs to hours, 
+        # mins ,secs(input = 110 min --> 120*60 = 6600 => 1hr : 
+        # 50min: 0sec) 
+        hours=0
+        if mins >60: 
+              
+            # divmod(firstvalue = temp//60, secondvalue  
+            # = temp%60) 
+            hours, mins = divmod(mins, 60) 
+            
+        
+        # using format () method to store the value up to  
+        # two decimal places 
+        t_str = "{} : {} : {}".format(str(hours),str(mins),str(secs))   
+                
+        hour.set(t_str) 
+        print(t_str) 
+        # updating the GUI window after decrementing the 
+        # temp value every time 
+        root.update() 
+        time.sleep(5) 
+   
+        # when temp value = 0; then a messagebox pop's up 
+        # with a message:"Time's up" 
+        if (temp == 0): 
+            exit() 
+          
+        # after every one sec the value of temp will be decremented 
+        # by one 
+        temp -= 5  
+        print(temp)
+    
     os.system('cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig')
 
     os.system('echo -Xmx'+memlim+'g > /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
@@ -41,10 +99,10 @@ def cluster_fiji(*args):
 
     os.system(callcmd)
 
-    root.destroy()
+    
 
     os.system('cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
-
+    os.system('rm /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig')
     exit()
 
 
@@ -69,7 +127,7 @@ s_cpu = Spinbox(mainframe, from_=1, to=100, textvariable=numcpus)
 s_cpu.grid(column=1, row=2, sticky=E)
 
 
-# ttk.Label(mainframe, text="Number of CPUs").grid(column=2, row=2, sticky=W)
+ttk.Label(mainframe, text="Number of CPUs").grid(column=2, row=2, sticky=W)
 
 
 mem = DoubleVar()
@@ -81,13 +139,12 @@ s_mem.grid(column=1, row=3, sticky=E)
 ttk.Label(mainframe, text="Memory (GB)").grid(column=2, row=3, sticky=W)
 
 
-time = DoubleVar()
-time.set(24)
-s_t = Spinbox(mainframe, from_=1, to=240, increment=6, textvariable=time)
+time_in = DoubleVar()
+time_in.set(24)
+s_t = Spinbox(mainframe, from_=1, to=240, increment=6, textvariable=time_in)
 s_t.grid(column=1, row=4, sticky=E)
 
 ttk.Label(mainframe, text="Job time limit (h)").grid(column=2, row=4, sticky=W)
-
 
 ttk.Button(mainframe, text="Go",command=cluster_fiji).grid(column=2, row=5, sticky=W)
 
