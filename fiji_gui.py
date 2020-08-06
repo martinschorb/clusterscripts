@@ -32,10 +32,22 @@ def cluster_fiji(*args):
 
     callcmd += '-t 0-'+timelim+':00 '
 
-    callcmd += 'bash /g/emcf/schorb/code/cluster/fijicluster.sh'
+    callcmd += 'bash /g/emcf/schorb/code/cluster/fijicluster.sh\n'
 
-    mainframe.destroy()    
-                   
+    mainframe.destroy()  
+    
+    prepcmd = 'cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig\n'
+    prepcmd += 'echo -Xmx'+memlim+'g > /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg\n'  
+    prepcmd += 'cat /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig >> /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg\n'
+    
+    os.system(prepcmd)
+    
+    callcmd += 'cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg'
+    callcmd += 'rm /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig'
+    
+    os.popen(callcmd)
+
+                 
     # Declaration of variables 
     hour=StringVar() 
     minute=StringVar() 
@@ -76,7 +88,6 @@ def cluster_fiji(*args):
         t_str = "{} : {} : {}".format(str(hours),str(mins),str(secs))   
                 
         hour.set(t_str) 
-        print(t_str) 
         # updating the GUI window after decrementing the 
         # temp value every time 
         root.update() 
@@ -90,19 +101,8 @@ def cluster_fiji(*args):
         # after every one sec the value of temp will be decremented 
         # by one 
         temp -= 5  
-        print(temp)
-    
-    os.system('cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig')
-
-    os.system('echo -Xmx'+memlim+'g > /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
-    os.system('cat /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig >> /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
-
-    os.system(callcmd)
-
     
 
-    os.system('cp /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg')
-    os.system('rm /g/emcf/software/Fiji/Fiji.app/ImageJ.cfg.orig')
     exit()
 
 
