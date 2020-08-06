@@ -60,4 +60,7 @@ For this, you need to open `Edit -> Options -> Memory & Threads`.
 
 And here, you can specify the number of threads (= number of CPUs).
 
+
+![numthreads](doc/img/mem_threads_01.png "Fiji - Cluster parameters")
+
 Happy processing!
