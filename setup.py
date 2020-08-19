@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(name='clusterms',
       version='20200706',
-      py_modules=['submit_slurm'],
+      py_modules=['submit_slurm','groupsharepath'],
       description='Tools to interact with EMBL cluster.',
       long_description=long_description,
       long_description_content_type="text/markdown",
