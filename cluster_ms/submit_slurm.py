@@ -37,8 +37,8 @@ def write_slurm_template(script, out_path, env_name,
                        "module purge \n"
                        "module load GCC \n")
 
-    if modules not None:
-        slurm_template += ("module load " + modules.join(', ') + "\n"))
+    if modules is not None:
+        slurm_template += ("module load " + modules.join(', ') + "\n")
 
     slurm_template += ('eval "$(/g/emcf/software/python/miniconda/bin/conda shell.bash hook)"\n'
                        "conda activate %s\n"

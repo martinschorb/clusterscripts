@@ -44,8 +44,8 @@ def write_slurm_template(script, out_path, env_name,
                        "conda activate %s\n")
                        "module load Java\n")
 
-    if modules not None:
-        slurm_template += ("module load " + modules.join(', ') + "\n"))
+    if modules is not None:
+        slurm_template += ("module load " + modules.join(', ') + "\n")
 
     slurm_template += ("\n"
                        "%s/start-master.sh\n"
