@@ -18,7 +18,7 @@ sparkdir = '/g/emcf/software/spark-3.0.0-bin-hadoop3.2/sbin/'
 #===========================================================================
 
 def write_slurm_template(script, out_path, env_name,
-                         n_tasks, n_cpus, mem_limit, time_limit, mail_address, log, err, mailnotify=True):
+                         n_tasks, n_cpus, mem_limit, time_limit, mail_address, log, err, mailnotify=True,modules=None):
 
 
     slurm_template = ("#!/bin/bash\n"
@@ -41,9 +41,13 @@ def write_slurm_template(script, out_path, env_name,
                        "module purge \n"
                        "module load GCC \n"
                        'eval "$(/g/emcf/software/python/miniconda/bin/conda shell.bash hook)"\n'
-                       "conda activate %s\n"
-                       "module load Java\n"
-                       "\n"
+                       "conda activate %s\n")
+                       "module load Java\n")
+
+    if modules not None:
+        slurm_template += ("module load " + modules.join(', ') + "\n"))
+
+    slurm_template += ("\n"
                        "%s/start-master.sh\n"
                        "sed -i \"1s/^/Slurm JOBID: $SLURM_JOBID - Spark server address:\n/\"  %s/active_server ") % (env_name,sparkdir)
 
@@ -66,7 +70,7 @@ def write_slurm_template(script, out_path, env_name,
 
 def submit_spark_slurm(script, input_, n_total=n_threads, n_threads=n_threads, mem_limit=str(mem)+'G',
                  time_limit=time,
-                 env_name=None, mail_address=None):
+                 env_name=None, mail_address=None,modules=None):
 
     tmp_folder = os.path.expanduser('~/.spark/slurm')
     os.makedirs(tmp_folder, exist_ok=True)
@@ -95,7 +99,7 @@ def submit_spark_slurm(script, input_, n_total=n_threads, n_threads=n_threads, m
     print("Batch script saved at", batch_script)
     print("Log will be written to %s.log, error log to %s.err" % (log, err))
     write_slurm_template(script, batch_script, env_name,
-                         int(n_threads), mem_limit, int(time_limit), mail_address, log, err)
+                         int(n_threads), mem_limit, int(time_limit), mail_address, log, err,modules=modules)
 
     cmd = ['sbatch', '-J', script_name, batch_script]
     cmd.extend(input_)
