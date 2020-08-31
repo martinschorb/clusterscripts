@@ -45,7 +45,11 @@ def write_slurm_template(script, out_path, env_name,
                        "module load Java\n")
 
     if modules is not None:
+<<<<<<< HEAD
         slurm_template += ("module load " + modules.join(', ') + "\n")
+=======
+        slurm_template += ("module load " + modules.join(', ') + "\n"))
+>>>>>>> 6d6322b1294b4dd0ecd527197c42cfa7eb9d77e5
 
     slurm_template += ("\n"
                        "%s/start-master.sh\n"
