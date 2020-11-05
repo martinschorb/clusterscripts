@@ -18,12 +18,6 @@ import subprocess
 
 scriptdir = "/g/emcf/schorb/code/cluster/"
 
-def calculate(*args):
-    numcpus.set(int(numcpus.get()*2))
-def calculate1(*args):
-    numcpus.set(int(numcpus.get()/2))
-
-
 
 def cluster_tomo(*args):
     timelim = s_t.get()
@@ -59,16 +53,20 @@ def cluster_tomo(*args):
     callcmd = scriptdir+'cluster_tomo.sh `pwd` '
     callcmd += directive+' '
     callcmd += options
-        
+    
+    print(callcmd)
+    
     os.popen(callcmd)
 
 def browse_tomo_dir(*args):
-     go.config(state='normal')        
-     conv_inputdir = filedialog.askdirectory(parent=root,title='Choose tomogram directory',initialdir=currdir)
+     go.config(state='normal') 
+     cdir =  currdir.get()      
+     conv_inputdir = filedialog.askdirectory(parent=root,title='Choose tomogram directory',initialdir=cdir)
      currdir.set(conv_inputdir)
 
 def browse_adoc(*args):
-    adoc_in = filedialog.askopenfilename(parent=root,title='Choose batch directive file',initialdir=currdir,filetypes=(('Batch directives','*.adoc'),('all files','*.*')))
+    cdir = currdir.get()
+    adoc_in = filedialog.askopenfilename(parent=root,title='Choose batch directive file',initialdir=cdir,filetypes=(('Batch directives','*.adoc'),('all files','*.*')))
     adoc.set(adoc_in)
     
 def jobs(*args):
@@ -161,10 +159,6 @@ jobs_outtext.configure(state='disabled')
 
 jobs_outtext.grid(column=1, row=11,columnspan=2)
 
-
 for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
-
-root.bind('<Return>', calculate)
-root.bind('<minus>', calculate1)
 
 root.mainloop()
