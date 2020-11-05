@@ -56,7 +56,7 @@ def cluster_tomo(*args):
     
     print(callcmd)
     
-    os.popen(callcmd)
+    os.system(callcmd)
 
 def browse_tomo_dir(*args):
      go.config(state='normal') 
@@ -73,7 +73,7 @@ def jobs(*args):
     p=subprocess.Popen('whoami',stdout=subprocess.PIPE,shell=True)
     user = p.communicate()[0].decode(encoding='utf8')    
     
-    p=subprocess.Popen('squeue -u `whoami` -o "%.8i %.9P %.8j %.8u %.2t %.10M %.6C %.6D %16R %o"',stdout=subprocess.PIPE,shell=True)
+    p=subprocess.Popen('squeue -u `whoami` -o "%.8i %.9P %.8j %.8u %.2t %.10M %.6C %.6D %16R %30o"',stdout=subprocess.PIPE,shell=True)
     jobs = p.communicate()[0].decode(encoding='utf8')
     jobs_outtext.configure(state='normal')
     jobs_outtext.delete('1.0','end')
@@ -155,7 +155,7 @@ ttk.Button(mainframe, text="Update status",command=jobs).grid(column=1, row=10,c
 
 
 jobs_outtext = scrolledtext.ScrolledText(mainframe)
-jobs_outtext.configure(state='disabled')
+jobs_outtext.configure(state='disabled',font = "Mono 11",width=120)
 
 jobs_outtext.grid(column=1, row=11,columnspan=2)
 
