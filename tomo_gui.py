@@ -35,6 +35,7 @@ def cluster_tomo(*args):
     directive = adoc.get()
     options = param_input.get()
     
+    go.config(state='disabled')
     
     os.chdir(cwd)
     
@@ -61,7 +62,8 @@ def cluster_tomo(*args):
         
     os.popen(callcmd)
 
-def browse_tomo_dir(*args):        
+def browse_tomo_dir(*args):
+     go.config(state='normal')        
      conv_inputdir = filedialog.askdirectory(parent=root,title='Choose tomogram directory',initialdir=currdir)
      currdir.set(conv_inputdir)
 
@@ -145,7 +147,8 @@ param_input = StringVar()
 ttk.Label(mainframe, text="Reconstruction parameters (d,m,p):").grid(column=1, row=7, sticky=E)
 ttk.Entry(mainframe, textvariable=param_input).grid(column=2, row=7, sticky=W)
 
-ttk.Button(mainframe, text="Go",command=cluster_tomo).grid(column=1, row=8,columnspan=2)
+go=ttk.Button(mainframe, text="Go",command=cluster_tomo)
+go.grid(column=1, row=8,columnspan=2)
 
 ttk.Label(mainframe, text="-"*50).grid(column=1, row=9,columnspan=2)
 
