@@ -73,11 +73,14 @@ def jobs(*args):
     p=subprocess.Popen('whoami',stdout=subprocess.PIPE,shell=True)
     user = p.communicate()[0].decode(encoding='utf8')    
     
-    p=subprocess.Popen('ls',stdout=subprocess.PIPE,shell=True)
+    p=subprocess.Popen('squeue -u `whoami` -o "%.8i %.9P %.8j %.8u %.2t %.10M %.6C %.6D %16R %o"',stdout=subprocess.PIPE,shell=True)
     jobs = p.communicate()[0].decode(encoding='utf8')
+    jobs_outtext.configure(state='normal')
     jobs_outtext.delete('1.0','end')
     jobs_outtext.insert('insert','Running cluster jobs for user: '+user)
+    jobs_outtext.insert('end','\n'+'--'*12+'\n')
     jobs_outtext.insert('end',jobs)
+    jobs_outtext.configure(state='disabled')
     
 
 
@@ -151,6 +154,8 @@ ttk.Button(mainframe, text="Update status",command=jobs).grid(column=1, row=10,c
 
 
 jobs_outtext = scrolledtext.ScrolledText(mainframe)
+jobs_outtext.configure(state='disabled')
+
 jobs_outtext.grid(column=1, row=11,columnspan=2)
 
 
