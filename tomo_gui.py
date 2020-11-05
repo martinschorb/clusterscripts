@@ -131,7 +131,7 @@ ttk.Label(mainframe, text="Memory (GB)").grid(column=2, row=3, sticky=W)
 
 time_in = DoubleVar()
 time_in.set(10)
-s_t = Spinbox(mainframe, from_=1, to=240, increment=6, textvariable=time_in)
+s_t = Spinbox(mainframe, from_=1, to=240, increment=1, textvariable=time_in)
 s_t.grid(column=1, row=4, sticky=E)
 
 ttk.Label(mainframe, text="Job time limit (min)").grid(column=2, row=4, sticky=W)
