@@ -24,9 +24,12 @@ test:
 pages:
   stage: deploy
   script:
+    - mkdir public
+    - cp doc/img public/
     - gitbook build . public # build to public path
   artifacts:
     paths:
       - public
+      - public/img
   only:
     - master # this job will affect only the 'master' branch
