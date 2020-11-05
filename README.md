@@ -4,8 +4,8 @@ Cluster tools for EMCF applications.
 
 includes Constantin's nice slurm submitter...
 
-[Instructions on how to start an interactive Fiji as a cluster job](doc/fiji.md)
-
+* [Instructions on how to start an interactive Fiji as a cluster job](doc/fiji.md)
+* [Instructions on how to reconstruct Tomograms on the cluster](doc/tomos.md)
 
 # Handy commands:
 
