@@ -50,7 +50,7 @@ def cluster_tomo(*args):
     
     os.popen('tail -n+20 '+scriptdir+'tomo_submit.sh >> tomo_submit.sh')   
     
-    callcmd = scriptdir+'cluster_tomo.sh `pwd` '
+    callcmd = scriptdir+'cluster_tomo.sh '+cwd+' '
     callcmd += directive+' '
     callcmd += options
     
