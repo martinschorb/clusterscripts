@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Fiji_Cluster_GUI
+Comment=
+Exec=/g/emcf/schorb/code/cluster/fiji_gui.sh
+Icon=network-server
+Path=/g/emcf
+Terminal=false
+StartupNotify=false
+Name[en_US.UTF-8]=Fiji_Cluster
