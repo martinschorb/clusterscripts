@@ -113,7 +113,7 @@ If desired, you can also give additional parameters to request specific processi
 
 Also, there is the experimental option `fl` that will try to run a flattening process on the final reconstruction.
 
-If you intend to test some parameters, or if you have problems with the automatic reconstruction, consider adding `a` to the parameters. This will output all intermediate files from the reconstruction to a new subdirectory. Be aware that this can create a lot oof data when reconstructing many tomograms in parallel (~ 10GB per tomo).
+If you intend to test some parameters, or if you have problems with the automatic reconstruction, consider adding `a` to the parameters. This will output all intermediate files from the reconstruction to a new subdirectory. Be aware that this can create a lot of data when reconstructing many tomograms in parallel (~ 10GB per tomo).
 
 
 Once you click `Go`, the resources will be requested from the cluster and once a free slot is found, the reconstructions will launch. At the same time there will be a small window that reminds you of the remaining run time of the job.
