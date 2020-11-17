@@ -52,6 +52,13 @@ If desired, you can also give additional parameters to request specific processi
 
 Once you click `Go`, the resources will be requested from the cluster and once a free slot is found, the reconstructions will launch. At the same time there will be a small window that reminds you of the remaining run time of the job.
 
+## Checking the status of running cluster jobs
+
+By clicking the `Update Status` button, you will be presented with a list of all your running cluster jobs.
+
+![status](doc/img/tomo_cluster_jobs.png "Cluster status")
+
+You can also get this information when you re-open the GUI window without launching any additional reconstruction jobs.
 
 
 
