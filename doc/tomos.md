@@ -50,6 +50,11 @@ You then need to browse to the source directory that hosts all your tilt series 
 
 If desired, you can also give additional parameters to request specific processing steps like patch area cleaning (`p`), montage stitching (`m`) or dual axis reconstruction (`d`).
 
+Also, there is the experimental option `fl` that will try to run a flattening process on the final reconstruction.
+
+If you intend to test some parameters, or if you have problems with the automatic reconstruction, consider adding `a` to the parameters. This will output all intermediate files from the reconstruction to a new subdirectory. Be aware that this can create a lot oof data when reconstructing many tomograms in parallel (~ 10GB per tomo).
+
+
 Once you click `Go`, the resources will be requested from the cluster and once a free slot is found, the reconstructions will launch. At the same time there will be a small window that reminds you of the remaining run time of the job.
 
 ## Checking the status of running cluster jobs
