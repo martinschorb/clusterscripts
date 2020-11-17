@@ -22,6 +22,8 @@ option="$3";
 
 tomouser=`whoami`;
 
+cp $directive $workdir
+
 cd "$workdir"
 
 find . -type f -iname '*.st'  | while IFS= read -r  file ;do

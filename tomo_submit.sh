@@ -3,7 +3,7 @@
 #SBATCH -N 1                        # number of nodes
 #SBATCH -n 12                        # number of cores
 #SBATCH --mem 8G                  # memory pool for all cores
-#SBATCH -t 0-00:15:00                   # runtime limit (D-HH:MM:SS)
+#SBATCH -t 0-00:10:00                   # runtime limit (D-HH:MM:SS)
 #SBATCH --mail-type=FAIL 
 #SBATCH --mail-user=schorb@embl.de 
 
