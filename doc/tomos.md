@@ -77,5 +77,39 @@ To follow the formally correct procedure, you can also click the `Pause` button 
 ![pause](doc/img/x2go_pause.png "x2go - Pause")
 
 
+## Connection problems
+
+
+IT has upgraded the graphical login node for the cluster.
+Therefore one connection setting has to be modified.
+This only applies for machines where you have already used the X2go connection.
+
+In this case you will get a "Host key cerification failed" error after accepting the (new) host key.
+
+![x2go_key_error](doc/img/key_error.png "x2go - key error")
+
+To fix this:
+
+MAC:
+
+- open a terminal
+- type and run:
+     open -a Textedit ~/.ssh/known_hosts
+- in this file, remove the line that starts with "login-gui.cluster.embl.de"
+- save the file
+
+
+![x2go_key_update](doc/img/key_update.png "x2go - key update")
+
+Windows:
+- open a file explorer
+- go to (type into the address bar) %USERPROFILE%\ssh
+- open the file "known_hosts" with a text editor
+- in this file, remove the line that starts with "login-gui.cluster.embl.de"
+- save the file
+
+
+Now, when connecting, X2go will ask you to accept the (new) host key. Hit yes and the connection should open. 
+
 
 ## Happy reconstruction!
