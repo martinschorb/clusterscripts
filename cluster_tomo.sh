@@ -27,7 +27,7 @@ cp $directive $workdir
 
 cd "$workdir"
 
-find . -type f -iname '*.st'  | while IFS= read -r  file ;do
+find . -type f -iname '*.st' -o -iname '*.mrc' | while IFS= read -r  file ;do
 #      printf 'File found: '"'%s'"'\n' "$file"
 
 #  	    curr_user=`stat -c %U "$file"`
@@ -39,7 +39,7 @@ find . -type f -iname '*.st'  | while IFS= read -r  file ;do
 
   	    base=${file##*/}
 #    	    echo $base
-# 	    directory=${file%$base}
+	    directory=${file%$base}
 #	    echo $directory
 
   	    base1=${base%$extension}

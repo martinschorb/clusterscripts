@@ -142,7 +142,7 @@ ttk.Button(mainframe, text="Browse",command=browse_adoc).grid(column=2, row=6, s
 
 param_input = StringVar()
 
-ttk.Label(mainframe, text="Reconstruction parameters (d,m,p):").grid(column=1, row=7, sticky=E)
+ttk.Label(mainframe, text="Reconstruction parameters (d,m,p,a,fl):").grid(column=1, row=7, sticky=E)
 ttk.Entry(mainframe, textvariable=param_input).grid(column=2, row=7, sticky=W)
 
 go=ttk.Button(mainframe, text="Go",command=cluster_tomo)
