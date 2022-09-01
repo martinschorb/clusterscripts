@@ -25,7 +25,7 @@ pages:
   stage: deploy
   script:
     - mkdir public
-    - cp doc/img public/
+    - cp -r doc/img public/
     - gitbook build . public # build to public path
   artifacts:
     paths:

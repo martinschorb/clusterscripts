@@ -24,7 +24,7 @@ inputdir="$2";
 directive="$3";
 option="$4"
 
-imod="IMOD/BETA4.10.38"
+imod="IMOD"
 
 module load $imod
 source $EBROOTIMOD/IMOD-linux.sh
