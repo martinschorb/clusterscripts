@@ -5,27 +5,54 @@ This tutorial explains how to reconstruct tomograms on the EMBL cluster.
 It makes use of the graphical login procedure for the EMBL cluster, described [here](https://wiki.embl.de/cluster/Env).
 
 
-## Setting up x2go
+## Setting up the remote Desktop
 
-Before you start, you need to install a client software to connect.
-Just download x2goclient (available for Windows, Linux and Mac from [here](https://wiki.x2go.org/doku.php/doc:installation:x2goclient) and configure your session as follows.
+The connection to a graphical login node of the EMBL cluster uses RDP (["Remote Desktop Protocol"](https://en.wikipedia.org/wiki/Remote_Desktop_Protocol)).
 
-When you first launch the program, you need to set up the connection. Click the white symbol in the top left corner to add a new connection.
+This is the built-in remote control in Microsoft Windows.
 
-![x2go](doc/img/X2go.png "x2go")
+In order to use the connection from a Mac you need to install the client software from [here](https://apps.apple.com/app/microsoft-remote-desktop/id1295203466?mt=12).
+***
 
-Here, you should the following connection details with your user name:
+### MacOS 
 
-![x2go_connect](doc/img/conn_01.png "x2go - connection details")
+To initially set up the connection, click the plus logo to add a new Desktop.
 
-If you want, you can also switch to the `Input/Output` tab to set up the display settings.
+![add remote Desktop](img/ms_add.png "Add remote Desktop")
 
-![x2go_disp](doc/img/conn_disp.png "x2go - display settings")
+Provide the address `login01.cluster.embl.de` and optionally choose your desired display settings for the connection.
+
+![login remote Desktop](img/rdp_login01.png "Add remote Desktop")
+
+### Windows
+Open the software **Remote Desktop Connection**. Provide the address `login01.cluster.embl.de` and optionally choose your desired display settings for the connection.
+
+![connect remote Desktop](img/rdp_win.png "Connect remote Desktop")
 
 
-Once you have set up the connection, you can just launch it by double-clicking its box on the right side of the x2go main window. Put your password and you will get a graphical desktop on EMBL's cluster submission node.
+***
+
+Once you have set up the connection, you can just launch it by double-clicking its entry in the list of the Remote Desktop main window. You can ignore the certificate warning that might show up.
+
+![RDP cert](img/rdp_cert.png "RDP certificate warning")
+
+Provide your EMBL login and password in the login window. 
+
+![login remote Desktop](img/xrdp_login.png "Log in")
+
+Now you will get a graphical desktop on EMBL's cluster submission node.
+
+
 
 ## Launching The batch reconstructions
+
+At the moment there is no desktop loaded automatically. To start the desktop, click "Activities" in the top left corner.
+
+![launch Desktop](img/gnome_terminal.png "launch Desktop")
+
+Type `terminal` in the search box and launch the "Xfce Terminal program".
+This will start a terminal session. In there type `xfdesktop` and hit enter to launch the desktop. Keep this terminal window open.
+
 
 You should find an icon called `Tomo_Cluster` on your desktop.
 
