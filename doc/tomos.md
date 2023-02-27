@@ -7,11 +7,14 @@ It makes use of the graphical login procedure for the EMBL cluster, described [h
 
 ## Setting up the remote Desktop
 
-The connection to a graphical login node of the EMBL cluster uses RDP (["Remote Desktop Protocol"](https://en.wikipedia.org/wiki/Remote_Desktop_Protocol)).
+The connection to a graphical login node of the EMBL cluster uses RDP (https://en.wikipedia.org/wiki/Remote_Desktop_Protocol).
 
 This is the built-in remote control in Microsoft Windows.
 
-In order to use the connection from a Mac you need to install the client software from [here](https://apps.apple.com/app/microsoft-remote-desktop/id1295203466?mt=12).
+In order to use the connection from a Mac you need to install the client software from https://apps.apple.com/app/microsoft-remote-desktop/id1295203466?mt=12 .
+
+If you have trouble with the App store, try downloading it from https://www.macupdate.com/app/mac/8431/microsoft-remote-desktop/old-versions .
+
 ***
 
 ### MacOS 
@@ -40,18 +43,21 @@ Provide your EMBL login and password in the login window.
 
 ![login remote Desktop](img/xrdp_login.png "Log in")
 
-Now you will get a graphical desktop on EMBL's cluster submission node.
-
-
-
-## Launching The batch reconstructions
-
 At the moment there is no desktop loaded automatically. To start the desktop, click "Activities" in the top left corner.
 
 ![launch Desktop](img/gnome_terminal.png "launch Desktop")
 
 Type `terminal` in the search box and launch the "Xfce Terminal program".
-This will start a terminal session. In there type `xfdesktop` and hit enter to launch the desktop. Keep this terminal window open.
+This will start a terminal session. In there type 
+
+```
+cp -r /g/emcf/schorb/code/admin_scripts/autostart ~/.config/ | xfdesktop
+```
+
+and hit enter to launch the desktop. Keep this terminal window open for the duration of this session.
+
+
+## Launching The batch reconstructions
 
 
 You should find an icon called `Tomo_Cluster` on your desktop.
