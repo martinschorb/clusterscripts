@@ -90,7 +90,7 @@ Now you are set!
 
 You should find an icon called `Tomo_Cluster` on your desktop.
 
-![desktop](doc/img/cluster_icon.png "Tomogram Reconstruction - Desktop icon")
+![desktop](img/cluster_icon.png "Tomogram Reconstruction - Desktop icon")
 
 If you don't (some more recent EMBL users might need that), open a terminal by right-clicking in an empty area of the desktop and selecting `Open Terminal here`.
 Then copy and paste this command and execute it by pressing `Return`.
@@ -103,7 +103,7 @@ Now, the desktop icon should be there.
 
 When you click the icon the following window appears:
 
-![params](doc/img/tomo_cluster_params.png "Tomogram Reconstruction - Cluster parameters")
+![params](img/tomo_cluster_params.png "Tomogram Reconstruction - Cluster parameters")
 
 Here, you can control the resources you like to request for the individual reconstruction cluster processing job. Be aware that your jobs will be terminated after the time limit you specify here, even when it is still running a computation. For dual axis reconstruction, some more time is needed. Also, the more resources (and the longer), your priority in getting them assigned will be lowered and you might have to wait some time until the reconstructions can start. It is not recommended to request more than 16 CPUs for a job.
 
@@ -122,7 +122,7 @@ Once you click `Go`, the resources will be requested from the cluster and once a
 
 By clicking the `Update Status` button, you will be presented with a list of all your running cluster jobs.
 
-![status](doc/img/tomo_cluster_jobs.png "Cluster status")
+![status](img/tomo_cluster_jobs.png "Cluster status")
 
 You can also get this information when you re-open the GUI window without launching any additional reconstruction jobs.
 
