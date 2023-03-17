@@ -64,7 +64,7 @@ You need to generate and deploy secure keys to allow your tasks to be run on mul
 Open a terminal by right-clicking in an empty area of the desktop and selecting `Open Terminal here`.
 Then copy and paste this command and execute it by pressing `Return`.
 ```
-[ -d ~/.ssh2 ] || mkdir ~/.ssh2
+[ -d ~/.ssh ] || mkdir ~/.ssh
 [ -f ~/.ssh/id_rsa ] || ssh-keygen -t rsa -b 4096 -q -N ""
 ```
 
