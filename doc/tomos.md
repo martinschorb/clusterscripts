@@ -56,6 +56,34 @@ cp -r /g/emcf/schorb/code/admin_scripts/autostart ~/.config/ | xfdesktop
 
 and hit enter to launch the desktop. Keep this terminal window open for the duration of this session.
 
+## Initial setup
+
+If you are launching jobs on the cluster for the very first time, a couple of steps need to be done to set you up for processing on a cluster.
+You need to generate and deploy secure keys to allow your tasks to be run on multiple machines without the need of providing your password for login every time.
+
+Open a terminal by right-clicking in an empty area of the desktop and selecting `Open Terminal here`.
+Then copy and paste this command and execute it by pressing `Return`.
+```
+[ -d ~/.ssh2 ] || mkdir ~/.ssh2
+[ -f ~/.ssh/id_rsa ] || ssh-keygen -t rsa -b 4096 -q -N ""
+```
+
+This will generate the keys.
+
+You now also need to copy your public key that you can display here:
+
+```
+cat ~/.ssh/id_rsa.pub
+```
+
+Be careful **not** to use `CTRL + C` for copying text as this key combination will terminate the procedure!
+Paste that key into the box on this website.
+
+https://pwtools.embl.de/sshkey
+
+![EMBL_key](img/EMBL_key.png "ssh key upload")
+
+Now you are set!
 
 ## Launching The batch reconstructions
 
