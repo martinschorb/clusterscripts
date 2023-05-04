@@ -27,7 +27,7 @@ option="$4"
 imod="IMOD"
 
 module load $imod
-source $EBROOTIMOD/IMOD-linux.sh
+# source $EBROOTIMOD/IMOD-linux.sh
 
 tomouser=`whoami`;
 
@@ -84,7 +84,6 @@ cd "$TMPDIR"
  echo starting automated removal of empty resin areas
  module load Anaconda3
  module load git
- module load $imod
 
  source $EBROOTIMOD/IMOD-linux.sh
 
@@ -115,12 +114,20 @@ then
 else
 
    rfile="$TMPDIR"/${base}.rec
+   if [ ! -e $rfile ];
+   	rfile="$TMPDIR"/${base}\_rec.mrc
+   fi
    cp "$rfile" "$inputdir"/
 
   if [[ $option = *d* ]];
   then
-    rfile_a="$TMPDIR"/${base}a.rec
+    rfile_a="$TMPDIR"/${base}a.rec    
     rfile_b="$TMPDIR"/${base}b.rec
+    if [ ! -e $rfile_a ];
+   	rfile_a="$TMPDIR"/${base}a\_rec.mrc
+   	rfile_b="$TMPDIR"/${base}b\_rec.mrc
+    fi
+    
     cp $rfile_a "$inputdir"/
     cp $rfile_b "$inputdir"/
   fi

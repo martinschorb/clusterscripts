@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=XFCE-Desktop
+GenericName=desktop
+Exec=xfdesktop &
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true

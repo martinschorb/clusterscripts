@@ -78,7 +78,7 @@ if [[ $option == *d* ]]
 then
       base2=${base1%${base1: -1}}
       axis="${base1: -1}"
-      if [ -e $base2.rec ]
+      if [ -e $base2.rec ] || [ -e $base2\_rec.mrc ]
       then
 	echo "skipping "$base" because combined reconstruction already exists."
       else
@@ -92,7 +92,7 @@ then
 else
 
 
-  if [ -e $base1.rec ]
+  if [ -e $base1.rec ] || [ -e $base1\_rec.mrc ]
   then
       echo "skipping "$base" because it already exists."
   else
