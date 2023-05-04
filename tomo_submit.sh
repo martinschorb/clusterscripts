@@ -115,6 +115,7 @@ else
 
    rfile="$TMPDIR"/${base}.rec
    if [ ! -e $rfile ];
+   then
    	rfile="$TMPDIR"/${base}\_rec.mrc
    fi
    cp "$rfile" "$inputdir"/
@@ -124,6 +125,7 @@ else
     rfile_a="$TMPDIR"/${base}a.rec    
     rfile_b="$TMPDIR"/${base}b.rec
     if [ ! -e $rfile_a ];
+    then
    	rfile_a="$TMPDIR"/${base}a\_rec.mrc
    	rfile_b="$TMPDIR"/${base}b\_rec.mrc
     fi
