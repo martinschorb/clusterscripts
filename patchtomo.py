@@ -121,8 +121,13 @@ if (not os.path.exists(namebase1[0] + '.preali')):
 
 for nb in namebase1:
 
-    # load coarse-aligned stack for finding featureless areas    
-    instack = em.mrc.mmap(nb + '.preali')
+    # load coarse-aligned stack for finding featureless areas
+    infile = nb + '.preali'
+
+    if not os.path.exists(infile):
+        infile = nb + '_preali.mrc'
+
+    instack = em.mrc.mmap(infile)
 
     stacksz = instack.header['nz']
 

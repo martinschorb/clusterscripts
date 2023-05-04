@@ -61,7 +61,7 @@ loc_dir=$(basename "${directive}")
 
 cd "$TMPDIR"
 
- if [[ $option = *fl* ]]; # run automated flattening
+ if [[ $option = *fl* ]]; # run automated flattening (TODO: new naming convention!)
  then
  echo runtime.ReplaceStep.any.20 = /g/emcf/schorb/code/cluster/flattentrim.sh \""$TMPDIR"/${base}_full.rec\">> "$loc_dir"
  fi
