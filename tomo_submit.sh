@@ -56,7 +56,7 @@ fi
 if [[ $option = *d* ]];
 then
   base=${inputfile%a$extension}
-  bfile="$inputdir"/${inputfile%a$extension}b.st
+  bfile="$inputdir"${inputfile%a$extension}b.st
   cp "$bfile" "$TMPDIR"
   cp "$bfile.mdoc" "$TMPDIR"
 fi
