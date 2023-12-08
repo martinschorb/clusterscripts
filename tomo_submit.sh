@@ -57,17 +57,17 @@ if [[ $option = *d* ]];
 then
   base=${inputfile%a$extension}
   bfile="$inputdir"/${inputfile%a$extension}b.st
-  cp "$bfile" "$TMPDIR/"
-  cp "$bfile.mdoc" "$TMPDIR/"
+  cp "$bfile" "$TMPDIR"
+  cp "$bfile.mdoc" "$TMPDIR"
 fi
 
 echo "$sfile"
 
 echo ---------------
 
-cp "$sfile" "$TMPDIR/"
-cp "$sfile.mdoc" "$TMPDIR/"
-cp "$directive" "$TMPDIR/"
+cp "$sfile" "$TMPDIR"
+cp "$sfile.mdoc" "$TMPDIR"
+cp "$directive" "$TMPDIR"
 
 loc_dir=$(basename "${directive}")
 
