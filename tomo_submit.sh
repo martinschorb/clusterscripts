@@ -42,7 +42,7 @@ base=${base1%$extension}
 
 ext1=${extension,,}
 
-sfile="$inputdir"/"$inputfile"
+sfile="$inputdir""$inputfile"
 
 
 
