@@ -37,12 +37,12 @@ find . -type f -iname '*.st' -o -iname '*.mrc' | while IFS= read -r  file ;do
  	    extension=$([[ "$file" = *.* ]] && echo ".${file##*.}" || echo '')
 
 
-  	    base=${file##*/}
+  	  base=${file##*/}
 #    	    echo $base
 	    directory=${file%$base}
 #	    echo $directory
 
-  	    base1=${base%$extension}
+  	  base1=${base%$extension}
 #	    echo $base1
 
 	    if [ ${base1:(-3)} == 'map' ]
@@ -55,7 +55,7 @@ find . -type f -iname '*.st' -o -iname '*.mrc' | while IFS= read -r  file ;do
 #    	    echo $ext1
 
 	    dir1=${directory:2}
-	    dir1="$workdir"/"$dir1"
+	    dir1="$workdir""$dir1"
 #  	    echo $dir1
 
 # 	    tomotype=${dir1%%/*}
