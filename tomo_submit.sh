@@ -20,9 +20,12 @@ numcpu=12
 # ---------------------------------------------------------------------------------------------------
 
 inputfile="$1";
-inputdir="$2";
-directive="$3";
-option="$4"
+shift
+inputdir="$1";
+shift
+directive="$1";
+shift
+option="$@"
 
 imod="IMOD"
 
