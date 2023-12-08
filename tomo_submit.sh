@@ -41,6 +41,15 @@ ext1=${extension,,}
 
 sfile="$inputdir"/"$inputfile"
 
+
+
+if [ ! -e $TMPDIR ] || [[ $TMPDIR == '' ]]
+then
+  export TMPDIR=./tmp_$base
+  mkdir $TMPDIR
+fi
+
+
 if [[ $option = *d* ]];
 then
   base=${inputfile%a$extension}
