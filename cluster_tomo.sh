@@ -50,6 +50,10 @@ find . -type f -iname '*.st' -o -iname '*.mrc' | while IFS= read -r  file ;do
 	      continue
 	    fi
 
+	    if [ ${base1:(-3)} == 'rec' ]
+	    then
+	      continue
+	    fi
 
   	    ext1=${extension,,}
 #    	    echo $ext1
